@@ -1,14 +1,14 @@
 language: java
 
 jdk:
-  - oraclejdk7
-  - oraclejdk8
+  - openjdk7
+  - openjdk8
 
 branches:
   only:
     - master
 
-script: "mvn clean package"
+script: "mvn clean package site"
 
 install: /bin/true
 
