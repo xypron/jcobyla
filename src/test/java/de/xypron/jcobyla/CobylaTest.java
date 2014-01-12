@@ -22,7 +22,7 @@
  * The original Fortran 77 version of this code was by Michael Powell (M.J.D.Powell @ damtp.cam.ac.uk)
  * The Fortran 90 version was by Alan Miller (Alan.Miller @ vic.cmis.csiro.au). Latest revision - 30 October 1998
  */
-package com.cureos.numerics;
+package de.xypron.jcobyla;
 
 import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
@@ -36,10 +36,10 @@ public class CobylaTest {
     
     // FIELDS
     
-    private double rhobeg = 0.5;
-    private double rhoend = 1.0e-6;
-    private int iprint = 1;
-    private int maxfun = 3500;
+    private static final double RHOBEG = 0.5;
+    private static final double RHOEND = 1.0e-6;
+    private static final int IPRINT = 1;
+    private static final int MAX_FUN = 3500;
 
     // TESTS
     
@@ -51,12 +51,12 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 1 (Simple quadratic)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 return 10.0 * Math.pow(x[0] + 1.0, 2.0) + Math.pow(x[1], 2.0);
             }
         };
         double[] x = {1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 2, 0, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 2, 0, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, new double[] { -1.0, 0.0 }, x, 1.0e-5);
     }
     
@@ -68,13 +68,13 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 2 (2D unit circle calculation)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 con[0] = 1.0 - x[0] * x[0] - x[1] * x[1];
                 return x[0] * x[1];
             }
         };
         double[] x = {1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 2, 1, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 2, 1, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, new double[] { Math.sqrt(0.5), -Math.sqrt(0.5) }, x, 1.0e-5);
     }
     
@@ -86,13 +86,13 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 3 (3D ellipsoid calculation)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 con[0] = 1.0 - x[0] * x[0] - 2.0 * x[1] * x[1] - 3.0 * x[2] * x[2];
                 return x[0] * x[1] * x[2];
             }
         };
         double[] x = {1.0, 1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 3, 1, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 3, 1, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, new double[] { 1.0 / Math.sqrt(3.0), 1.0 / Math.sqrt(6.0), -1.0 / 3.0 }, x, 1.0e-5);
     }
     
@@ -104,12 +104,12 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 4 (Weak Rosenbrock)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 return Math.pow(x[0] * x[0] - x[1], 2.0) + Math.pow(1.0 + x[0], 2.0);
             }
         };
         double[] x = {1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 2, 0, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 2, 0, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, new double[] { -1.0, 1.0 }, x, 1.0e-4);
     }
     
@@ -121,12 +121,12 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 5 (Intermediate Rosenbrock)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 return 10.0 * Math.pow(x[0] * x[0] - x[1], 2.0) + Math.pow(1.0 + x[0], 2.0);
             }
         };
         double[] x = {1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 2, 0, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 2, 0, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, new double[] { -1.0, 1.0 }, x, 3.0e-4);
     }
     
@@ -139,14 +139,14 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 6 (Equation (9.1.15) in Fletcher's book)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 con[0] = x[1] - x[0] * x[0];
                 con[1] = 1.0 - x[0] * x[0] - x[1] * x[1];
                 return -x[0] - x[1];
             }
         };
         double[] x = {1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 2, 2, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 2, 2, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, new double[] { Math.sqrt(0.5), Math.sqrt(0.5) }, x, 1.0e-5);
     }
     
@@ -159,7 +159,7 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 7 (Equation (14.4.2) in Fletcher)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 con[0] = 5.0 * x[0] - x[1] + x[2];
                 con[1] = x[2] - x[0] * x[0] - x[1] * x[1] - 4.0 * x[1];
                 con[2] = x[2] - 5.0 * x[0] - x[1];
@@ -167,7 +167,7 @@ public class CobylaTest {
             }
         };
         double[] x = {1.0, 1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 3, 3, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 3, 3, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, new double[] { 0.0, -3.0, -3.0 }, x, 1.0e-5);
     }
     
@@ -181,7 +181,7 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 8 (Rosen-Suzuki)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 con[0] = 8.0 - x[0] * x[0] - x[1] * x[1] - x[2] * x[2] - x[3] * x[3] - x[0] + x[1] - x[2] + x[3];
                 con[1] = 10.0 - x[0] * x[0] - 2.0 * x[1] * x[1] - x[2] * x[2] - 2.0 * x[3] * x[3] + x[0] + x[3];
                 con[2] = 5.0 - 2.0 * x[0] * x[0] - x[1] * x[1] - x[2] * x[2] - 2.0 * x[0] + x[1] + x[3];
@@ -190,7 +190,7 @@ public class CobylaTest {
             }
         };
         double[] x = {1.0, 1.0, 1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 4, 3, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 4, 3, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, new double[] { 0.0, 1.0, 2.0, -1.0 }, x, 1.0e-5);
     }
     
@@ -204,7 +204,7 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 9 (Hock and Schittkowski 100)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 con[0] = 127.0 - 2.0 * x[0] * x[0] - 3.0 * Math.pow(x[1], 4.0) - x[2] - 4.0 * x[3] * x[3] - 5.0 * x[4];
                 con[1] = 282.0 - 7.0 * x[0] - 3.0 * x[1] - 10.0 * x[2] * x[2] - x[3] + x[4];
                 con[2] = 196.0 - 23.0 * x[0] - x[1] * x[1] - 6.0 * x[5] * x[5] + 8.0 * x[6];
@@ -215,7 +215,7 @@ public class CobylaTest {
             }
         };
         double[] x = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 7, 4, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 7, 4, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, 
                 new double[] { 2.330499, 1.951372, -0.4775414, 4.365726, -0.624487, 1.038131, 1.594227 }, x, 1.0e-5);
     }
@@ -230,7 +230,7 @@ public class CobylaTest {
         System.out.format("%nOutput from test problem 10 (Hexagon area)%n");
         Calcfc calcfc = new Calcfc() {
             @Override
-            public double Compute(int n, int m, double[] x, double[] con) {
+            public double compute(int n, int m, double[] x, double[] con) {
                 con[0] = 1.0 - x[2] * x[2] - x[3] * x[3];
                 con[1] = 1.0 - x[8] * x[8];
                 con[2] = 1.0 - x[4] * x[4] - x[5] * x[5];
@@ -249,7 +249,7 @@ public class CobylaTest {
             }
         };
         double[] x = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
-        CobylaExitStatus result = Cobyla.FindMinimum(calcfc, 9, 14, x, rhobeg, rhoend, iprint, maxfun);
+        CobylaExitStatus result = Cobyla.findMinimum(calcfc, 9, 14, x, RHOBEG, RHOEND, IPRINT, MAX_FUN);
         assertArrayEquals(null, 
                 new double[] { x[0], x[1], x[2], x[3], x[0], x[1], x[2], x[3], 0.0 }, x, 1.0e-4);
     }

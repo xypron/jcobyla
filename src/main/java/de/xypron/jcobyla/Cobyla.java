@@ -1,65 +1,79 @@
 /*
  * jcobyla
- * 
+ *
  * The MIT License
  *
  * Copyright (c) 2012 Anders Gustafsson, Cureos AB.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files 
- * (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, 
- * publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, 
- * subject to the following conditions:
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
  *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE 
- * FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION 
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  * 
  * Remarks:
  * 
- * The original Fortran 77 version of this code was by Michael Powell (M.J.D.Powell @ damtp.cam.ac.uk)
- * The Fortran 90 version was by Alan Miller (Alan.Miller @ vic.cmis.csiro.au). Latest revision - 30 October 1998
+ * The original Fortran 77 version of this code was by Michael Powell
+ * (M.J.D.Powell @ damtp.cam.ac.uk). The Fortran 90 version was by Alan Miller
+ * (Alan.Miller @ vic.cmis.csiro.au). Latest revision - 30 October 1998
  */
-package com.cureos.numerics;
+package de.xypron.jcobyla;
 
 /**
  * Constrained Optimization BY Linear Approximation in Java.
- * 
- * COBYLA2 is an implementation of Powell’s nonlinear derivative–free constrained optimization that uses 
- * a linear approximation approach. The algorithm is a sequential trust–region algorithm that employs linear
- * approximations to the objective and constraint functions, where the approximations are formed by linear
- * interpolation at n + 1 points in the space of the variables and tries to maintain a regular–shaped simplex 
- * over iterations.
- * 
- * It solves nonsmooth NLP with a moderate number of variables (about 100). Inequality constraints only.
- * 
- * The initial point X is taken as one vertex of the initial simplex with zero being another, so, X should
- * not be entered as the zero vector.
- * 
+ *
+ * COBYLA2 is an implementation of Powell’s nonlinear derivative–free
+ * constrained optimization that uses a linear approximation approach. The
+ * algorithm is a sequential trust–region algorithm that employs linear
+ * approximations to the objective and constraint functions, where the
+ * approximations are formed by linear interpolation at n + 1 points in the
+ * space of the variables and tries to maintain a regular–shaped simplex over
+ * iterations.
+ *
+ * It solves nonsmooth NLP with a moderate number of variables (about 100).
+ * Inequality constraints only.
+ *
+ * The initial point X is taken as one vertex of the initial simplex with zero
+ * being another, so, X should not be entered as the zero vector.
+ *
  * @author Anders Gustafsson, Cureos AB.
  */
-public class Cobyla
-{    
+public class Cobyla {
+
     /**
-     * Minimizes the objective function F with respect to a set of inequality constraints CON,
-     * and returns the optimal variable array. F and CON may be non-linear, and should preferably be smooth.
-     * 
-     * @param calcfc Interface implementation for calculating objective function and constraints.
+     * Minimizes the objective function F with respect to a set of inequality
+     * constraints CON, and returns the optimal variable array. F and CON may be
+     * non-linear, and should preferably be smooth.
+     *
+     * @param calcfc Interface implementation for calculating objective function
+     * and constraints.
      * @param n Number of variables.
      * @param m Number of constraints.
-     * @param x On input initial values of the variables (zero-based array). On output
-     * optimal values of the variables obtained in the COBYLA minimization.
+     * @param x On input initial values of the variables (zero-based array). On
+     * output optimal values of the variables obtained in the COBYLA
+     * minimization.
      * @param rhobeg Initial size of the simplex.
      * @param rhoend Final value of the simplex.
-     * @param iprint Print level, 0 &lt;= iprint &lt;= 3, where 0 provides no output and
-     * 3 provides full output to the console.
+     * @param iprint Print level, 0 &lt;= iprint &lt;= 3, where 0 provides no
+     * output and 3 provides full output to the console.
      * @param maxfun Maximum number of function evaluations before terminating.
      * @return Exit status of the COBYLA2 optimization.
      */
-    public static CobylaExitStatus FindMinimum(final Calcfc calcfc, int n, int m, double[] x, double rhobeg, double rhoend, int iprint, int maxfun)
-    {
+    public static CobylaExitStatus findMinimum(final Calcfc calcfc, int n,
+            int m, double[] x, double rhobeg, double rhoend, int iprint,
+            int maxfun) {
         //     This subroutine minimizes an objective function F(X) subject to M
         //     inequality constraints on X, where X is a vector of variables that has
         //     N components.  The algorithm employs linear approximations to the
@@ -99,7 +113,6 @@ public class Cobyla
         //     limit on the number of calls of CALCFC, the purpose of this routine being
         //     given below.  The value of ITERS will be altered to the number of calls
         //     of CALCFC that are made.
-
         //     In order to define the objective and constraint functions, we require
         //     a subroutine that has the name and arguments
         //                SUBROUTINE CALCFC (N,M,X,F,CON)
@@ -109,7 +122,6 @@ public class Cobyla
         //     the objective and constraint functions at X in F and CON(1),CON(2),
         //     ...,CON(M).  Note that we are trying to adjust X so that F(X) is as
         //     small as possible subject to the constraint functions being nonnegative.
-
         // Local variables
         int mpp = m + 2;
 
@@ -119,8 +131,7 @@ public class Cobyla
 
         // Internal representation of the objective and constraints calculation method, 
         // accounting for that X and CON arrays in the cobylb method are base-1 arrays.
-        Calcfc fcalcfc = new Calcfc()
-        {
+        Calcfc fcalcfc = new Calcfc() {
             /**
              *
              * @param n the value of n
@@ -130,26 +141,24 @@ public class Cobyla
              * @return the double
              */
             @Override
-            public double Compute(int n, int m, double[] x, double[] con)
-            {
+            public double compute(int n, int m, double[] x, double[] con) {
                 double[] ix = new double[n];
                 System.arraycopy(x, 1, ix, 0, n);
                 double[] ocon = new double[m];
-                double f = calcfc.Compute(n, m, ix, ocon);
+                double f = calcfc.compute(n, m, ix, ocon);
                 System.arraycopy(ocon, 0, con, 1, m);
                 return f;
             }
-        };                
+        };
 
         CobylaExitStatus status = cobylb(fcalcfc, n, m, mpp, iox, rhobeg, rhoend, iprint, maxfun);
         System.arraycopy(iox, 1, x, 0, n);
 
         return status;
     }
-    
+
     private static CobylaExitStatus cobylb(Calcfc calcfc, int n, int m, int mpp, double[] x,
-        double rhobeg, double rhoend, int iprint, int maxfun)
-    {
+            double rhobeg, double rhoend, int iprint, int maxfun) {
         // N.B. Arguments CON, SIM, SIMI, DATMAT, A, VSIG, VETA, SIGBAR, DX, W & IACT
         //      have been removed.
 
@@ -158,18 +167,16 @@ public class Cobyla
         //     hold the displacements from the optimal vertex to the other vertices.
         //     Further, SIMI holds the inverse of the matrix that is contained in the
         //     first N columns of SIM.
-
         // Local variables
-
         CobylaExitStatus status;
-        
+
         double alpha = 0.25;
         double beta = 2.1;
         double gamma = 0.5;
         double delta = 1.1;
 
         double f = 0.0;
-        double resmax = 0.0; 
+        double resmax = 0.0;
         double total;
 
         int np = n + 1;
@@ -194,13 +201,14 @@ public class Cobyla
         double[] dx = new double[1 + n];
         double[] w = new double[1 + n];
 
-        if (iprint >= 2) System.out.format("%nThe initial value of RHO is %13.6f and PARMU is set to zero.%n", rho);
+        if (iprint >= 2) {
+            System.out.format("%nThe initial value of RHO is %13.6f and PARMU is set to zero.%n", rho);
+        }
 
         int nfvals = 0;
         double temp = 1.0 / rho;
 
-        for (int i = 1; i <= n; ++i)
-        {
+        for (int i = 1; i <= n; ++i) {
             sim[i][np] = x[i];
             sim[i][i] = rho;
             simi[i][i] = temp;
@@ -212,24 +220,23 @@ public class Cobyla
         //     Make the next call of the user-supplied subroutine CALCFC. These
         //     instructions are also used for calling CALCFC during the iterations of
         //     the algorithm.
-
         L_40:
-        do
-        {
-            if (nfvals >= maxfun && nfvals > 0)
-            {
-                status = CobylaExitStatus.MaxIterationsReached;
+        do {
+            if (nfvals >= maxfun && nfvals > 0) {
+                status = CobylaExitStatus.MAX_ITERATIONS_REACHED;
                 break L_40;
             }
 
             ++nfvals;
 
-            f = calcfc.Compute(n, m, x, con);
-            resmax = 0.0; for (int k = 1; k <= m; ++k) resmax = Math.max(resmax, -con[k]);
+            f = calcfc.compute(n, m, x, con);
+            resmax = 0.0;
+            for (int k = 1; k <= m; ++k) {
+                resmax = Math.max(resmax, -con[k]);
+            }
 
-            if (nfvals == iprint - 1 || iprint == 3)
-            {
-                PrintIterationResult(nfvals, f, resmax, x, n);
+            if (nfvals == iprint - 1 || iprint == 3) {
+                printIterationResult(nfvals, f, resmax, x, n);
             }
 
             con[mp] = f;
@@ -240,44 +247,39 @@ public class Cobyla
             //     each column being the values of the constraint functions (if any)
             //     followed by the objective function and the greatest constraint violation
             //     at the vertex.
-
             boolean skipVertexIdent = true;
-            if (!ibrnch)
-            {
+            if (!ibrnch) {
                 skipVertexIdent = false;
-                
-                for (int i = 1; i <= mpp; ++i) datmat[i][jdrop] = con[i];
 
-                if (nfvals <= np)
-                {
+                for (int i = 1; i <= mpp; ++i) {
+                    datmat[i][jdrop] = con[i];
+                }
+
+                if (nfvals <= np) {
                     //     Exchange the new vertex of the initial simplex with the optimal vertex if
                     //     necessary. Then, if the initial simplex is not complete, pick its next
                     //     vertex and calculate the function values there.
 
-                    if (jdrop <= n)
-                    {
-                        if (datmat[mp][np] <= f)
-                        {
+                    if (jdrop <= n) {
+                        if (datmat[mp][np] <= f) {
                             x[jdrop] = sim[jdrop][np];
-                        }
-                        else
-                        {
+                        } else {
                             sim[jdrop][np] = x[jdrop];
-                            for (int k = 1; k <= mpp; ++k)
-                            {
+                            for (int k = 1; k <= mpp; ++k) {
                                 datmat[k][jdrop] = datmat[k][np];
                                 datmat[k][np] = con[k];
                             }
-                            for (int k = 1; k <= jdrop; ++k)
-                            {
+                            for (int k = 1; k <= jdrop; ++k) {
                                 sim[jdrop][k] = -rho;
-                                temp = 0.0; for (int i = k; i <= jdrop; ++i) temp -= simi[i][k];
+                                temp = 0.0;
+                                for (int i = k; i <= jdrop; ++i) {
+                                    temp -= simi[i][k];
+                                }
                                 simi[jdrop][k] = temp;
                             }
                         }
                     }
-                    if (nfvals <= n)
-                    {
+                    if (nfvals <= n) {
                         jdrop = nfvals;
                         x[jdrop] += rho;
                         continue L_40;
@@ -286,54 +288,42 @@ public class Cobyla
 
                 ibrnch = true;
             }
-            
+
             L_140:
-            do
-            {
+            do {
                 L_550:
-                do
-                {
-                    if (!skipVertexIdent)
-                    {
+                do {
+                    if (!skipVertexIdent) {
                         //     Identify the optimal vertex of the current simplex.
 
                         double phimin = datmat[mp][np] + parmu * datmat[mpp][np];
                         int nbest = np;
 
-                        for (int j = 1; j <= n; ++j)
-                        {
+                        for (int j = 1; j <= n; ++j) {
                             temp = datmat[mp][j] + parmu * datmat[mpp][j];
-                            if (temp < phimin)
-                            {
+                            if (temp < phimin) {
                                 nbest = j;
                                 phimin = temp;
-                            }
-                            else if (temp == phimin && parmu == 0.0 && datmat[mpp][j] < datmat[mpp][nbest])
-                            {
+                            } else if (temp == phimin && parmu == 0.0 && datmat[mpp][j] < datmat[mpp][nbest]) {
                                 nbest = j;
                             }
                         }
 
                         //     Switch the best vertex into pole position if it is not there already,
                         //     and also update SIM, SIMI and DATMAT.
-
-                        if (nbest <= n)
-                        {
-                            for (int i = 1; i <= mpp; ++i)
-                            {
+                        if (nbest <= n) {
+                            for (int i = 1; i <= mpp; ++i) {
                                 temp = datmat[i][np];
                                 datmat[i][np] = datmat[i][nbest];
                                 datmat[i][nbest] = temp;
                             }
-                            for (int i = 1; i <= n; ++i)
-                            {
+                            for (int i = 1; i <= n; ++i) {
                                 temp = sim[i][nbest];
                                 sim[i][nbest] = 0.0;
                                 sim[i][np] += temp;
 
                                 double tempa = 0.0;
-                                for (int k = 1; k <= n; ++k)
-                                {
+                                for (int k = 1; k <= n; ++k) {
                                     sim[i][k] -= temp;
                                     tempa -= simi[k][i];
                                 }
@@ -343,19 +333,15 @@ public class Cobyla
 
                         //     Make an error return if SIGI is a poor approximation to the inverse of
                         //     the leading N by N submatrix of SIG.
-
                         double error = 0.0;
-                        for (int i = 1; i <= n; ++i)
-                        {
-                            for (int j = 1; j <= n; ++j)
-                            {
-                                temp = DOT_PRODUCT(PART(ROW(simi, i), 1, n), PART(COL(sim, j), 1, n)) - (i == j ? 1.0 : 0.0);
+                        for (int i = 1; i <= n; ++i) {
+                            for (int j = 1; j <= n; ++j) {
+                                temp = dotProduct(part(row(simi, i), 1, n), part(col(sim, j), 1, n)) - (i == j ? 1.0 : 0.0);
                                 error = Math.max(error, Math.abs(temp));
                             }
                         }
-                        if (error > 0.1)
-                        {
-                            status = CobylaExitStatus.DivergingRoundingErrors;
+                        if (error > 0.1) {
+                            status = CobylaExitStatus.DIVERGING_ROUNDING_ERRORS;
                             break L_40;
                         }
 
@@ -363,55 +349,53 @@ public class Cobyla
                         //     and constraint functions, placing minus the objective function gradient
                         //     after the constraint gradients in the array A. The vector W is used for
                         //     working space.
-
-                        for (int k = 1; k <= mp; ++k)
-                        {
+                        for (int k = 1; k <= mp; ++k) {
                             con[k] = -datmat[k][np];
-                            for (int j = 1; j <= n; ++j) w[j] = datmat[k][j] + con[k];
+                            for (int j = 1; j <= n; ++j) {
+                                w[j] = datmat[k][j] + con[k];
+                            }
 
-                            for (int i = 1; i <= n; ++i)
-                            {
-                                a[i][k] = (k == mp ? -1.0 : 1.0) * DOT_PRODUCT(PART(w, 1, n), PART(COL(simi, i), 1, n));
+                            for (int i = 1; i <= n; ++i) {
+                                a[i][k] = (k == mp ? -1.0 : 1.0) * dotProduct(part(w, 1, n), part(col(simi, i), 1, n));
                             }
                         }
 
                         //     Calculate the values of sigma and eta, and set IFLAG = 0 if the current
                         //     simplex is not acceptable.
-
                         iflag = true;
                         parsig = alpha * rho;
                         double pareta = beta * rho;
 
-                        for (int j = 1; j <= n; ++j)
-                        {
-                            double wsig = 0.0; for (int k = 1; k <= n; ++k) wsig += simi[j][k] * simi[j][k];
-                            double weta = 0.0; for (int k = 1; k <= n; ++k) weta += sim[k][j] * sim[k][j];
+                        for (int j = 1; j <= n; ++j) {
+                            double wsig = 0.0;
+                            for (int k = 1; k <= n; ++k) {
+                                wsig += simi[j][k] * simi[j][k];
+                            }
+                            double weta = 0.0;
+                            for (int k = 1; k <= n; ++k) {
+                                weta += sim[k][j] * sim[k][j];
+                            }
                             vsig[j] = 1.0 / Math.sqrt(wsig);
                             veta[j] = Math.sqrt(weta);
-                            if (vsig[j] < parsig || veta[j] > pareta) iflag = false;
+                            if (vsig[j] < parsig || veta[j] > pareta) {
+                                iflag = false;
+                            }
                         }
 
                         //     If a new vertex is needed to improve acceptability, then decide which
                         //     vertex to drop from the simplex.
-
-                        if (!ibrnch && !iflag)
-                        {
+                        if (!ibrnch && !iflag) {
                             jdrop = 0;
                             temp = pareta;
-                            for (int j = 1; j <= n; ++j)
-                            {
-                                if (veta[j] > temp)
-                                {
+                            for (int j = 1; j <= n; ++j) {
+                                if (veta[j] > temp) {
                                     jdrop = j;
                                     temp = veta[j];
                                 }
                             }
-                            if (jdrop == 0)
-                            {
-                                for (int j = 1; j <= n; ++j)
-                                {
-                                    if (vsig[j] < temp)
-                                    {
+                            if (jdrop == 0) {
+                                for (int j = 1; j <= n; ++j) {
+                                    if (vsig[j] < temp) {
                                         jdrop = j;
                                         temp = vsig[j];
                                     }
@@ -419,18 +403,17 @@ public class Cobyla
                             }
 
                             //     Calculate the step to the new vertex and its sign.
-
                             temp = gamma * rho * vsig[jdrop];
-                            for (int k = 1; k <= n; ++k) dx[k] = temp * simi[jdrop][k];
+                            for (int k = 1; k <= n; ++k) {
+                                dx[k] = temp * simi[jdrop][k];
+                            }
                             double cvmaxp = 0.0;
                             double cvmaxm = 0.0;
 
                             total = 0.0;
-                            for (int k = 1; k <= mp; ++k)
-                            {
-                                total = DOT_PRODUCT(PART(COL(a, k), 1, n), PART(dx, 1, n));
-                                if (k < mp)
-                                {
+                            for (int k = 1; k <= mp; ++k) {
+                                total = dotProduct(part(col(a, k), 1, n), part(dx, 1, n));
+                                if (k < mp) {
                                     temp = datmat[k][np];
                                     cvmaxp = Math.max(cvmaxp, -total - temp);
                                     cvmaxm = Math.max(cvmaxm, total - temp);
@@ -439,22 +422,22 @@ public class Cobyla
                             double dxsign = parmu * (cvmaxp - cvmaxm) > 2.0 * total ? -1.0 : 1.0;
 
                             //     Update the elements of SIM and SIMI, and set the next X.
-
                             temp = 0.0;
-                            for (int i = 1; i <= n; ++i)
-                            {
+                            for (int i = 1; i <= n; ++i) {
                                 dx[i] = dxsign * dx[i];
                                 sim[i][jdrop] = dx[i];
                                 temp += simi[jdrop][i] * dx[i];
                             }
-                            for (int k = 1; k <= n; ++k) simi[jdrop][k] /= temp;
+                            for (int k = 1; k <= n; ++k) {
+                                simi[jdrop][k] /= temp;
+                            }
 
-                            for (int j = 1; j <= n; ++j)
-                            {
-                                if (j != jdrop)
-                                {
-                                    temp = DOT_PRODUCT(PART(ROW(simi, j), 1, n), PART(dx, 1, n));
-                                    for (int k = 1; k <= n; ++k) simi[j][k] -= temp * simi[jdrop][k];
+                            for (int j = 1; j <= n; ++j) {
+                                if (j != jdrop) {
+                                    temp = dotProduct(part(row(simi, j), 1, n), part(dx, 1, n));
+                                    for (int k = 1; k <= n; ++k) {
+                                        simi[j][k] -= temp * simi[jdrop][k];
+                                    }
                                 }
                                 x[j] = sim[j][np] + dx[j];
                             }
@@ -463,13 +446,13 @@ public class Cobyla
 
                         //     Calculate DX = x(*)-x(0).
                         //     Branch if the length of DX is less than 0.5*RHO.
-
                         ifull = trstlp(n, m, a, con, rho, dx);
-                        if (!ifull)
-                        {
-                            temp = 0.0; for (int k = 1; k <= n; ++k) temp += dx[k] * dx[k];
-                            if (temp < 0.25 * rho * rho)
-                            {
+                        if (!ifull) {
+                            temp = 0.0;
+                            for (int k = 1; k <= n; ++k) {
+                                temp += dx[k] * dx[k];
+                            }
+                            if (temp < 0.25 * rho * rho) {
                                 ibrnch = true;
                                 break L_550;
                             }
@@ -477,40 +460,42 @@ public class Cobyla
 
                         //     Predict the change to F and the new maximum constraint violation if the
                         //     variables are altered from x(0) to x(0) + DX.
-
                         total = 0.0;
                         double resnew = 0.0;
                         con[mp] = 0.0;
-                        for (int k = 1; k <= mp; ++k)
-                        {
-                            total = con[k] - DOT_PRODUCT(PART(COL(a, k), 1, n), PART(dx, 1, n));
-                            if (k < mp) resnew = Math.max(resnew, total);
+                        for (int k = 1; k <= mp; ++k) {
+                            total = con[k] - dotProduct(part(col(a, k), 1, n), part(dx, 1, n));
+                            if (k < mp) {
+                                resnew = Math.max(resnew, total);
+                            }
                         }
 
                         //     Increase PARMU if necessary and branch back if this change alters the
                         //     optimal vertex. Otherwise PREREM and PREREC will be set to the predicted
                         //     reductions in the merit function and the maximum constraint violation
                         //     respectively.
-
                         prerec = datmat[mpp][np] - resnew;
                         double barmu = prerec > 0.0 ? total / prerec : 0.0;
-                        if (parmu < 1.5 * barmu)
-                        {
+                        if (parmu < 1.5 * barmu) {
                             parmu = 2.0 * barmu;
-                            if (iprint >= 2) System.out.format("%nIncrease in PARMU to %13.6f%n", parmu);
+                            if (iprint >= 2) {
+                                System.out.format("%nIncrease in PARMU to %13.6f%n", parmu);
+                            }
                             double phi = datmat[mp][np] + parmu * datmat[mpp][np];
-                            for (int j = 1; j <= n; ++j)
-                            {
+                            for (int j = 1; j <= n; ++j) {
                                 temp = datmat[mp][j] + parmu * datmat[mpp][j];
-                                if (temp < phi || (temp == phi && parmu == 0.0 && datmat[mpp][j] < datmat[mpp][np])) continue L_140;
+                                if (temp < phi || (temp == phi && parmu == 0.0 && datmat[mpp][j] < datmat[mpp][np])) {
+                                    continue L_140;
+                                }
                             }
                         }
                         prerem = parmu * prerec - total;
 
                         //     Calculate the constraint and objective functions at x(*).
                         //     Then find the actual reduction in the merit function.
-
-                        for (int k = 1; k <= n; ++k) x[k] = sim[k][np] + dx[k];
+                        for (int k = 1; k <= n; ++k) {
+                            x[k] = sim[k][np] + dx[k];
+                        }
                         ibrnch = true;
                         continue L_40;
                     }
@@ -519,8 +504,7 @@ public class Cobyla
                     double vmold = datmat[mp][np] + parmu * datmat[mpp][np];
                     double vmnew = f + parmu * resmax;
                     double trured = vmold - vmnew;
-                    if (parmu == 0.0 && f == datmat[mp][np])
-                    {
+                    if (parmu == 0.0 && f == datmat[mp][np]) {
                         prerem = prerec;
                         trured = datmat[mpp][np] - resmax;
                     }
@@ -529,14 +513,11 @@ public class Cobyla
                     //     vertices of the current simplex, the change being mandatory if TRURED is
                     //     positive. Firstly, JDROP is set to the index of the vertex that is to be
                     //     replaced.
-
                     double ratio = trured <= 0.0 ? 1.0 : 0.0;
                     jdrop = 0;
-                    for (int j = 1; j <= n; ++j)
-                    {
-                        temp = Math.abs(DOT_PRODUCT(PART(ROW(simi, j), 1, n), PART(dx, 1, n)));
-                        if (temp > ratio)
-                        {
+                    for (int j = 1; j <= n; ++j) {
+                        temp = Math.abs(dotProduct(part(row(simi, j), 1, n), part(dx, 1, n)));
+                        if (temp > ratio) {
                             jdrop = j;
                             ratio = temp;
                         }
@@ -544,138 +525,142 @@ public class Cobyla
                     }
 
                     //     Calculate the value of ell.
-
                     double edgmax = delta * rho;
                     int l = 0;
-                    for (int j = 1; j <= n; ++j)
-                    {
-                        if (sigbar[j] >= parsig || sigbar[j] >= vsig[j])
-                        {
+                    for (int j = 1; j <= n; ++j) {
+                        if (sigbar[j] >= parsig || sigbar[j] >= vsig[j]) {
                             temp = veta[j];
-                            if (trured > 0.0)
-                            {
-                                temp = 0.0; for (int k = 1; k <= n; ++k) temp += Math.pow(dx[k] - sim[k][j], 2.0);
+                            if (trured > 0.0) {
+                                temp = 0.0;
+                                for (int k = 1; k <= n; ++k) {
+                                    temp += Math.pow(dx[k] - sim[k][j], 2.0);
+                                }
                                 temp = Math.sqrt(temp);
                             }
-                            if (temp > edgmax)
-                            {
+                            if (temp > edgmax) {
                                 l = j;
                                 edgmax = temp;
                             }
                         }
                     }
-                    if (l > 0) jdrop = l;
+                    if (l > 0) {
+                        jdrop = l;
+                    }
 
-                    if (jdrop != 0)
-                    {
+                    if (jdrop != 0) {
                         //     Revise the simplex by updating the elements of SIM, SIMI and DATMAT.
 
                         temp = 0.0;
-                        for (int i = 1; i <= n; ++i)
-                        {
+                        for (int i = 1; i <= n; ++i) {
                             sim[i][jdrop] = dx[i];
                             temp += simi[jdrop][i] * dx[i];
                         }
-                        for (int k = 1; k <= n; ++k) simi[jdrop][k] /= temp;
-                        for (int j = 1; j <= n; ++j)
-                        {
-                            if (j != jdrop)
-                            {
-                                temp = DOT_PRODUCT(PART(ROW(simi, j), 1, n), PART(dx, 1, n));
-                                for (int k = 1; k <= n; ++k) simi[j][k] -= temp * simi[jdrop][k];
+                        for (int k = 1; k <= n; ++k) {
+                            simi[jdrop][k] /= temp;
+                        }
+                        for (int j = 1; j <= n; ++j) {
+                            if (j != jdrop) {
+                                temp = dotProduct(part(row(simi, j), 1, n), part(dx, 1, n));
+                                for (int k = 1; k <= n; ++k) {
+                                    simi[j][k] -= temp * simi[jdrop][k];
+                                }
                             }
                         }
-                        for (int k = 1; k <= mpp; ++k) datmat[k][jdrop] = con[k];
+                        for (int k = 1; k <= mpp; ++k) {
+                            datmat[k][jdrop] = con[k];
+                        }
 
                         //     Branch back for further iterations with the current RHO.
-
-                        if (trured > 0.0 && trured >= 0.1 * prerem) continue L_140;
+                        if (trured > 0.0 && trured >= 0.1 * prerem) {
+                            continue L_140;
+                        }
                     }
                 } while (false);
-                
-                if (!iflag)
-                {
+
+                if (!iflag) {
                     ibrnch = false;
                     continue L_140;
                 }
 
-                if (rho <= rhoend)
-                {
-                    status = CobylaExitStatus.Normal;
+                if (rho <= rhoend) {
+                    status = CobylaExitStatus.NORMAL;
                     break L_40;
                 }
 
                 //     Otherwise reduce RHO if it is not at its least value and reset PARMU.
-
                 double cmin = 0.0, cmax = 0.0;
 
                 rho *= 0.5;
-                if (rho <= 1.5 * rhoend) rho = rhoend;
-                if (parmu > 0.0)
-                {
+                if (rho <= 1.5 * rhoend) {
+                    rho = rhoend;
+                }
+                if (parmu > 0.0) {
                     double denom = 0.0;
-                    for (int k = 1; k <= mp; ++k)
-                    {
+                    for (int k = 1; k <= mp; ++k) {
                         cmin = datmat[k][np];
                         cmax = cmin;
-                        for (int i = 1; i <= n; ++i)
-                        {
+                        for (int i = 1; i <= n; ++i) {
                             cmin = Math.min(cmin, datmat[k][i]);
                             cmax = Math.max(cmax, datmat[k][i]);
                         }
-                        if (k <= m && cmin < 0.5 * cmax)
-                        {
+                        if (k <= m && cmin < 0.5 * cmax) {
                             temp = Math.max(cmax, 0.0) - cmin;
                             denom = denom <= 0.0 ? temp : Math.min(denom, temp);
                         }
                     }
-                    if (denom == 0.0)
-                    {
+                    if (denom == 0.0) {
                         parmu = 0.0;
-                    }
-                    else if (cmax - cmin < parmu * denom)
-                    {
+                    } else if (cmax - cmin < parmu * denom) {
                         parmu = (cmax - cmin) / denom;
                     }
                 }
-                if (iprint >= 2)
+                if (iprint >= 2) {
                     System.out.format("%nReduction in RHO to %1$13.6f  and PARMU = %2$13.6f%n", rho, parmu);
-                if (iprint == 2) 
-                    PrintIterationResult(nfvals, datmat[mp][np], datmat[mpp][np], COL(sim, np), n);
+                }
+                if (iprint == 2) {
+                    printIterationResult(nfvals, datmat[mp][np], datmat[mpp][np], col(sim, np), n);
+                }
 
             } while (true);
         } while (true);
-        
-        switch (status)
-        {
-            case Normal:
-                if (iprint >= 1) System.out.format("%nNormal return from subroutine COBYLA%n");
-                if (ifull)
-                {
-                    if (iprint >= 1) PrintIterationResult(nfvals, f, resmax, x, n);
+
+        switch (status) {
+            case NORMAL:
+                if (iprint >= 1) {
+                    System.out.format("%nNormal return from subroutine COBYLA%n");
+                }
+                if (ifull) {
+                    if (iprint >= 1) {
+                        printIterationResult(nfvals, f, resmax, x, n);
+                    }
                     return status;
                 }
                 break;
-            case MaxIterationsReached:
-                if (iprint >= 1)
+            case MAX_ITERATIONS_REACHED:
+                if (iprint >= 1) {
                     System.out.format("%nReturn from subroutine COBYLA because the MAXFUN limit has been reached.%n");
+                }
                 break;
-            case DivergingRoundingErrors:
-                if (iprint >= 1)
+            case DIVERGING_ROUNDING_ERRORS:
+                if (iprint >= 1) {
                     System.out.format("%nReturn from subroutine COBYLA because rounding errors are becoming damaging.%n");
+                }
                 break;
         }
-        
-        for (int k = 1; k <= n; ++k) x[k] = sim[k][np];
+
+        for (int k = 1; k <= n; ++k) {
+            x[k] = sim[k][np];
+        }
         f = datmat[mp][np];
         resmax = datmat[mpp][np];
-        if (iprint >= 1) PrintIterationResult(nfvals, f, resmax, x, n);
-        
+        if (iprint >= 1) {
+            printIterationResult(nfvals, f, resmax, x, n);
+        }
+
         return status;
     }
 
-    private static boolean trstlp(int n, int m, double[][] a, double[] b, double rho, double[] dx)
-    {
+    private static boolean trstlp(int n, int m, double[][] a, double[] b, double rho, double[] dx) {
         // N.B. Arguments Z, ZDOTA, VMULTC, SDIRN, DXNEW, VMULTD & IACT have been removed.
 
         //     This subroutine calculates an N-component vector DX by applying the
@@ -692,7 +677,6 @@ public class Cobyla
         //     by MCON .EQ. M and MCON .GT. M respectively. It is possible that a
         //     degeneracy may prevent DX from attaining the target length RHO. Then the
         //     value IFULL = 0 would be set, but usually IFULL = 1 on return.
-
         //     In general NACT is the number of constraints in the active set and
         //     IACT(1),...,IACT(NACT) are their indices, while the remainder of IACT
         //     contains a permutation of the remaining constraint indices.  Further, Z
@@ -708,15 +692,12 @@ public class Cobyla
         //     agreement with the permutation of the indices of the constraints that is
         //     in IACT. All these residuals are nonnegative, which is achieved by the
         //     shift RESMAX that makes the least residual zero.
-
         //     Initialize Z and some other variables. The value of RESMAX will be
         //     appropriate to DX = 0, while ICON will be the index of a most violated
         //     constraint if RESMAX is positive. Usually during the first stage the
         //     vector SDIRN gives a search direction that reduces all the active
         //     constraint violations by one simultaneously.
-
         // Local variables
-
         double temp;
 
         int nactx = 0;
@@ -732,45 +713,36 @@ public class Cobyla
 
         int mcon = m;
         int nact = 0;
-        for (int i = 1; i <= n; ++i)
-        {
+        for (int i = 1; i <= n; ++i) {
             z[i][i] = 1.0;
             dx[i] = 0.0;
         }
 
         int icon = 0;
         double resmax = 0.0;
-        if (m >= 1)
-        {
-            for (int k = 1; k <= m; ++k)
-            {
-                if (b[k] > resmax)
-                {
+        if (m >= 1) {
+            for (int k = 1; k <= m; ++k) {
+                if (b[k] > resmax) {
                     resmax = b[k];
                     icon = k;
                 }
             }
-            for (int k = 1; k <= m; ++k)
-            {
+            for (int k = 1; k <= m; ++k) {
                 iact[k] = k;
                 vmultc[k] = resmax - b[k];
             }
         }
-        
+
         //     End the current stage of the calculation if 3 consecutive iterations
         //     have either failed to reduce the best calculated value of the objective
         //     function or to increase the number of active constraints since the best
         //     value was calculated. This strategy prevents cycling, but there is a
         //     remote possibility that it will cause premature termination.
-
         boolean first = true;
-        do
-        {
+        do {
             L_60:
-            do
-            {
-                if (!first || (first && resmax == 0.0))
-                {
+            do {
+                if (!first || (first && resmax == 0.0)) {
                     mcon = m + 1;
                     icon = mcon;
                     iact[mcon] = mcon;
@@ -782,57 +754,48 @@ public class Cobyla
                 int icount = 0;
 
                 double step, stpful;
-                
-                L_70:
-                do
-                {
-                    double optnew = mcon == m ? resmax : -DOT_PRODUCT(PART(dx, 1, n), PART(COL(a, mcon), 1, n));
 
-                    if (icount == 0 || optnew < optold)
-                    {
+                L_70:
+                do {
+                    double optnew = mcon == m ? resmax : -dotProduct(part(dx, 1, n), part(col(a, mcon), 1, n));
+
+                    if (icount == 0 || optnew < optold) {
                         optold = optnew;
                         nactx = nact;
                         icount = 3;
-                    }
-                    else if (nact > nactx)
-                    {
+                    } else if (nact > nactx) {
                         nactx = nact;
                         icount = 3;
-                    }
-                    else
-                    {
+                    } else {
                         --icount;
                     }
-                    if (icount == 0) break L_60;
+                    if (icount == 0) {
+                        break L_60;
+                    }
 
                     //     If ICON exceeds NACT, then we add the constraint with index IACT(ICON) to
                     //     the active set. Apply Givens rotations so that the last N-NACT-1 columns
                     //     of Z are orthogonal to the gradient of the new constraint, a scalar
                     //     product being set to zero if its nonzero value could be due to computer
                     //     rounding errors. The array DXNEW is used for working space.
-
                     double ratio;
-                    if (icon <= nact)
-                    {
-                        if (icon < nact)
-                        {
+                    if (icon <= nact) {
+                        if (icon < nact) {
                             //     Delete the constraint that has the index IACT(ICON) from the active set.
 
                             int isave = iact[icon];
                             double vsave = vmultc[icon];
                             int k = icon;
-                            do
-                            {
+                            do {
                                 int kp = k + 1;
                                 int kk = iact[kp];
-                                double sp = DOT_PRODUCT(PART(COL(z, k), 1, n), PART(COL(a, kk), 1, n));
+                                double sp = dotProduct(part(col(z, k), 1, n), part(col(a, kk), 1, n));
                                 temp = Math.sqrt(sp * sp + zdota[kp] * zdota[kp]);
                                 double alpha = zdota[kp] / temp;
                                 double beta = sp / temp;
                                 zdota[kp] = alpha * zdota[k];
                                 zdota[k] = temp;
-                                for (int i = 1; i <= n; ++i)
-                                {
+                                for (int i = 1; i <= n; ++i) {
                                     temp = alpha * z[i][kp] + beta * z[i][k];
                                     z[i][kp] = alpha * z[i][k] - beta * z[i][kp];
                                     z[i][k] = temp;
@@ -849,54 +812,50 @@ public class Cobyla
 
                         //     If stage one is in progress, then set SDIRN to the direction of the next
                         //     change to the current vector of variables.
-
-                        if (mcon > m)
-                        {
+                        if (mcon > m) {
                             //     Pick the next search direction of stage two.
 
                             temp = 1.0 / zdota[nact];
-                            for (int k = 1; k <= n; ++k) sdirn[k] = temp * z[k][nact];
+                            for (int k = 1; k <= n; ++k) {
+                                sdirn[k] = temp * z[k][nact];
+                            }
+                        } else {
+                            temp = dotProduct(part(sdirn, 1, n), part(col(z, nact + 1), 1, n));
+                            for (int k = 1; k <= n; ++k) {
+                                sdirn[k] -= temp * z[k][nact + 1];
+                            }
                         }
-                        else
-                        {
-                            temp = DOT_PRODUCT(PART(sdirn, 1, n), PART(COL(z, nact + 1), 1, n));
-                            for (int k = 1; k <= n; ++k) sdirn[k] -= temp * z[k][nact + 1];
-                        }
-                    }
-                    else
-                    {
+                    } else {
                         int kk = iact[icon];
-                        for (int k = 1; k <= n; ++k) dxnew[k] = a[k][kk];
+                        for (int k = 1; k <= n; ++k) {
+                            dxnew[k] = a[k][kk];
+                        }
                         double tot = 0.0;
 
                         {
                             int k = n;
-                            while (k > nact)
-                            {
+                            while (k > nact) {
                                 double sp = 0.0;
                                 double spabs = 0.0;
-                                for (int i = 1; i <= n; ++i)
-                                {
+                                for (int i = 1; i <= n; ++i) {
                                     temp = z[i][k] * dxnew[i];
                                     sp += temp;
                                     spabs += Math.abs(temp);
                                 }
                                 double acca = spabs + 0.1 * Math.abs(sp);
                                 double accb = spabs + 0.2 * Math.abs(sp);
-                                if (spabs >= acca || acca >= accb) sp = 0.0;
-                                if (tot == 0.0)
-                                {
-                                    tot = sp;
+                                if (spabs >= acca || acca >= accb) {
+                                    sp = 0.0;
                                 }
-                                else
-                                {
+                                if (tot == 0.0) {
+                                    tot = sp;
+                                } else {
                                     int kp = k + 1;
                                     temp = Math.sqrt(sp * sp + tot * tot);
                                     double alpha = sp / temp;
                                     double beta = tot / temp;
                                     tot = temp;
-                                    for (int i = 1; i <= n; ++i)
-                                    {
+                                    for (int i = 1; i <= n; ++i) {
                                         temp = alpha * z[i][k] + beta * z[i][kp];
                                         z[i][kp] = alpha * z[i][kp] - beta * z[i][k];
                                         z[i][k] = temp;
@@ -906,8 +865,7 @@ public class Cobyla
                             }
                         }
 
-                        if (tot == 0.0)
-                        {
+                        if (tot == 0.0) {
                             //     The next instruction is reached if a deletion has to be made from the
                             //     active set in order to make room for the new active constraint, because
                             //     the new constraint gradient is a linear combination of the gradients of
@@ -918,66 +876,62 @@ public class Cobyla
                             ratio = -1.0;
                             {
                                 int k = nact;
-                                do
-                                {
+                                do {
                                     double zdotv = 0.0;
                                     double zdvabs = 0.0;
 
-                                    for (int i = 1; i <= n; ++i)
-                                    {
+                                    for (int i = 1; i <= n; ++i) {
                                         temp = z[i][k] * dxnew[i];
                                         zdotv += temp;
                                         zdvabs += Math.abs(temp);
                                     }
                                     double acca = zdvabs + 0.1 * Math.abs(zdotv);
                                     double accb = zdvabs + 0.2 * Math.abs(zdotv);
-                                    if (zdvabs < acca && acca < accb)
-                                    {
+                                    if (zdvabs < acca && acca < accb) {
                                         temp = zdotv / zdota[k];
-                                        if (temp > 0.0 && iact[k] <= m)
-                                        {
+                                        if (temp > 0.0 && iact[k] <= m) {
                                             double tempa = vmultc[k] / temp;
-                                            if (ratio < 0.0 || tempa < ratio) ratio = tempa;
+                                            if (ratio < 0.0 || tempa < ratio) {
+                                                ratio = tempa;
+                                            }
                                         }
 
-                                        if (k >= 2)
-                                        {
+                                        if (k >= 2) {
                                             int kw = iact[k];
-                                            for (int i = 1; i <= n; ++i) dxnew[i] -= temp * a[i][kw];
+                                            for (int i = 1; i <= n; ++i) {
+                                                dxnew[i] -= temp * a[i][kw];
+                                            }
                                         }
                                         vmultd[k] = temp;
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         vmultd[k] = 0.0;
                                     }
                                 } while (--k > 0);
                             }
-                            if (ratio < 0.0) break L_60;
+                            if (ratio < 0.0) {
+                                break L_60;
+                            }
 
                             //     Revise the Lagrange multipliers and reorder the active constraints so
                             //     that the one to be replaced is at the end of the list. Also calculate the
                             //     new value of ZDOTA(NACT) and branch if it is not acceptable.
-
-                            for (int k = 1; k <= nact; ++k)
+                            for (int k = 1; k <= nact; ++k) {
                                 vmultc[k] = Math.max(0.0, vmultc[k] - ratio * vmultd[k]);
-                            if (icon < nact)
-                            {
+                            }
+                            if (icon < nact) {
                                 int isave = iact[icon];
                                 double vsave = vmultc[icon];
                                 int k = icon;
-                                do
-                                {
+                                do {
                                     int kp = k + 1;
                                     int kw = iact[kp];
-                                    double sp = DOT_PRODUCT(PART(COL(z, k), 1, n), PART(COL(a, kw), 1, n));
+                                    double sp = dotProduct(part(col(z, k), 1, n), part(col(a, kw), 1, n));
                                     temp = Math.sqrt(sp * sp + zdota[kp] * zdota[kp]);
                                     double alpha = zdota[kp] / temp;
                                     double beta = sp / temp;
                                     zdota[kp] = alpha * zdota[k];
                                     zdota[k] = temp;
-                                    for (int i = 1; i <= n; ++i)
-                                    {
+                                    for (int i = 1; i <= n; ++i) {
                                         temp = alpha * z[i][kp] + beta * z[i][k];
                                         z[i][kp] = alpha * z[i][k] - beta * z[i][kp];
                                         z[i][k] = temp;
@@ -989,14 +943,14 @@ public class Cobyla
                                 iact[k] = isave;
                                 vmultc[k] = vsave;
                             }
-                            temp = DOT_PRODUCT(PART(COL(z, nact), 1, n), PART(COL(a, kk), 1, n));
-                            if (temp == 0.0) break L_60;
+                            temp = dotProduct(part(col(z, nact), 1, n), part(col(a, kk), 1, n));
+                            if (temp == 0.0) {
+                                break L_60;
+                            }
                             zdota[nact] = temp;
                             vmultc[icon] = 0.0;
                             vmultc[nact] = ratio;
-                        }
-                        else
-                        {
+                        } else {
                             //     Add the new constraint if this can be done without a deletion from the
                             //     active set.
 
@@ -1005,23 +959,20 @@ public class Cobyla
                             vmultc[icon] = vmultc[nact];
                             vmultc[nact] = 0.0;
                         }
-                        
+
                         //     Update IACT and ensure that the objective function continues to be
                         //     treated as the last active constraint when MCON>M.
-
                         iact[icon] = iact[nact];
                         iact[nact] = kk;
-                        if (mcon > m && kk != mcon)
-                        {
+                        if (mcon > m && kk != mcon) {
                             int k = nact - 1;
-                            double sp = DOT_PRODUCT(PART(COL(z, k), 1, n), PART(COL(a, kk), 1, n));
+                            double sp = dotProduct(part(col(z, k), 1, n), part(col(a, kk), 1, n));
                             temp = Math.sqrt(sp * sp + zdota[nact] * zdota[nact]);
                             double alpha = zdota[nact] / temp;
                             double beta = sp / temp;
                             zdota[nact] = alpha * zdota[k];
                             zdota[k] = temp;
-                            for (int i = 1; i <= n; ++i)
-                            {
+                            for (int i = 1; i <= n; ++i) {
                                 temp = alpha * z[i][nact] + beta * z[i][k];
                                 z[i][nact] = alpha * z[i][k] - beta * z[i][nact];
                                 z[i][k] = temp;
@@ -1035,47 +986,52 @@ public class Cobyla
 
                         //     If stage one is in progress, then set SDIRN to the direction of the next
                         //     change to the current vector of variables.
-
-                        if (mcon > m)
-                        {
+                        if (mcon > m) {
                             //     Pick the next search direction of stage two.
 
                             temp = 1.0 / zdota[nact];
-                            for (int k = 1; k <= n; ++k) sdirn[k] = temp * z[k][nact];                            
-                        }
-                        else
-                        {
+                            for (int k = 1; k <= n; ++k) {
+                                sdirn[k] = temp * z[k][nact];
+                            }
+                        } else {
                             kk = iact[nact];
-                            temp = (DOT_PRODUCT(PART(sdirn, 1, n), PART(COL(a, kk), 1, n)) - 1.0) / zdota[nact];
-                            for (int k = 1; k <= n; ++k) sdirn[k] -= temp * z[k][nact];
+                            temp = (dotProduct(part(sdirn, 1, n), part(col(a, kk), 1, n)) - 1.0) / zdota[nact];
+                            for (int k = 1; k <= n; ++k) {
+                                sdirn[k] -= temp * z[k][nact];
+                            }
                         }
                     }
-                    
+
                     //     Calculate the step to the boundary of the trust region or take the step
                     //     that reduces RESMAX to zero. The two statements below that include the
                     //     factor 1.0E-6 prevent some harmless underflows that occurred in a test
                     //     calculation. Further, we skip the step if it could be zero within a
                     //     reasonable tolerance for computer rounding errors.
-
                     double dd = rho * rho;
                     double sd = 0.0;
                     double ss = 0.0;
-                    for (int i = 1; i <= n; ++i)
-                    {
-                        if (Math.abs(dx[i]) >= 1.0E-6 * rho) dd -= dx[i] * dx[i];
+                    for (int i = 1; i <= n; ++i) {
+                        if (Math.abs(dx[i]) >= 1.0E-6 * rho) {
+                            dd -= dx[i] * dx[i];
+                        }
                         sd += dx[i] * sdirn[i];
                         ss += sdirn[i] * sdirn[i];
                     }
-                    if (dd <= 0.0) break L_60;
+                    if (dd <= 0.0) {
+                        break L_60;
+                    }
                     temp = Math.sqrt(ss * dd);
-                    if (Math.abs(sd) >= 1.0E-6 * temp) temp = Math.sqrt(ss * dd + sd * sd);
+                    if (Math.abs(sd) >= 1.0E-6 * temp) {
+                        temp = Math.sqrt(ss * dd + sd * sd);
+                    }
                     stpful = dd / (temp + sd);
                     step = stpful;
-                    if (mcon == m)
-                    {
+                    if (mcon == m) {
                         double acca = step + 0.1 * resmax;
                         double accb = step + 0.2 * resmax;
-                        if (step >= acca || acca >= accb) break L_70;
+                        if (step >= acca || acca >= accb) {
+                            break L_70;
+                        }
                         step = Math.min(step, resmax);
                     }
 
@@ -1083,16 +1039,15 @@ public class Cobyla
                     //     RESMAX to the corresponding maximum residual if stage one is being done.
                     //     Because DXNEW will be changed during the calculation of some Lagrange
                     //     multipliers, it will be restored to the following value later.
-
-                    for (int k = 1; k <= n; ++k) dxnew[k] = dx[k] + step * sdirn[k];
-                    if (mcon == m)
-                    {
+                    for (int k = 1; k <= n; ++k) {
+                        dxnew[k] = dx[k] + step * sdirn[k];
+                    }
+                    if (mcon == m) {
                         resold = resmax;
                         resmax = 0.0;
-                        for (int k = 1; k <= nact; ++k)
-                        {
+                        for (int k = 1; k <= nact; ++k) {
                             int kk = iact[k];
-                            temp = b[kk] - DOT_PRODUCT(PART(COL(a, kk), 1, n), PART(dxnew, 1, n));
+                            temp = b[kk] - dotProduct(part(col(a, kk), 1, n), part(dxnew, 1, n));
                             resmax = Math.max(resmax, temp);
                         }
                     }
@@ -1101,67 +1056,65 @@ public class Cobyla
                     //     device is included to force VMULTD(K) = 0.0 if deviations from this value
                     //     can be attributed to computer rounding errors. First calculate the new
                     //     Lagrange multipliers.
-
                     {
-                        int k = nact;            
-                        do
-                        {
+                        int k = nact;
+                        do {
                             double zdotw = 0.0;
                             double zdwabs = 0.0;
-                            for (int i = 1; i <= n; ++i)
-                            {
+                            for (int i = 1; i <= n; ++i) {
                                 temp = z[i][k] * dxnew[i];
                                 zdotw += temp;
                                 zdwabs += Math.abs(temp);
                             }
                             double acca = zdwabs + 0.1 * Math.abs(zdotw);
                             double accb = zdwabs + 0.2 * Math.abs(zdotw);
-                            if (zdwabs >= acca || acca >= accb) zdotw = 0.0;
+                            if (zdwabs >= acca || acca >= accb) {
+                                zdotw = 0.0;
+                            }
                             vmultd[k] = zdotw / zdota[k];
-                            if (k >= 2)
-                            {
+                            if (k >= 2) {
                                 int kk = iact[k];
-                                for (int i = 1; i <= n; ++i) dxnew[i] -= vmultd[k] * a[i][kk];
+                                for (int i = 1; i <= n; ++i) {
+                                    dxnew[i] -= vmultd[k] * a[i][kk];
+                                }
                             }
                         } while (k-- >= 2);
-                        if (mcon > m) vmultd[nact] = Math.max(0.0, vmultd[nact]);
+                        if (mcon > m) {
+                            vmultd[nact] = Math.max(0.0, vmultd[nact]);
+                        }
                     }
 
                     //     Complete VMULTC by finding the new constraint residuals.
-
-                    for (int k = 1; k <= n; ++k) dxnew[k] = dx[k] + step * sdirn[k];
-                    if (mcon > nact)
-                    {
+                    for (int k = 1; k <= n; ++k) {
+                        dxnew[k] = dx[k] + step * sdirn[k];
+                    }
+                    if (mcon > nact) {
                         int kl = nact + 1;
-                        for (int k = kl; k <= mcon; ++k)
-                        {
+                        for (int k = kl; k <= mcon; ++k) {
                             int kk = iact[k];
                             double total = resmax - b[kk];
                             double sumabs = resmax + Math.abs(b[kk]);
-                            for (int i = 1; i <= n; ++i)
-                            {
+                            for (int i = 1; i <= n; ++i) {
                                 temp = a[i][kk] * dxnew[i];
                                 total += temp;
                                 sumabs += Math.abs(temp);
                             }
                             double acca = sumabs + 0.1 * Math.abs(total);
                             double accb = sumabs + 0.2 * Math.abs(total);
-                            if (sumabs >= acca || acca >= accb) total = 0.0;
+                            if (sumabs >= acca || acca >= accb) {
+                                total = 0.0;
+                            }
                             vmultd[k] = total;
                         }
                     }
 
                     //     Calculate the fraction of the step from DX to DXNEW that will be taken.
-
                     ratio = 1.0;
                     icon = 0;
-                    for (int k = 1; k <= mcon; ++k)
-                    {
-                        if (vmultd[k] < 0.0)
-                        {
+                    for (int k = 1; k <= mcon; ++k) {
+                        if (vmultd[k] < 0.0) {
                             temp = vmultc[k] / (vmultc[k] - vmultd[k]);
-                            if (temp < ratio)
-                            {
+                            if (temp < ratio) {
                                 ratio = temp;
                                 icon = k;
                             }
@@ -1169,70 +1122,79 @@ public class Cobyla
                     }
 
                     //     Update DX, VMULTC and RESMAX.
-
                     temp = 1.0 - ratio;
-                    for (int k = 1; k <= n; ++k) dx[k] = temp * dx[k] + ratio * dxnew[k];
-                    for (int k = 1; k <= mcon; ++k)
+                    for (int k = 1; k <= n; ++k) {
+                        dx[k] = temp * dx[k] + ratio * dxnew[k];
+                    }
+                    for (int k = 1; k <= mcon; ++k) {
                         vmultc[k] = Math.max(0.0, temp * vmultc[k] + ratio * vmultd[k]);
-                    if (mcon == m) resmax = resold + ratio * (resmax - resold);
+                    }
+                    if (mcon == m) {
+                        resmax = resold + ratio * (resmax - resold);
+                    }
 
                     //     If the full step is not acceptable then begin another iteration.
                     //     Otherwise switch to stage two or end the calculation.
-
                 } while (icon > 0);
-                
-                if (step == stpful) return true;
-                
+
+                if (step == stpful) {
+                    return true;
+                }
+
             } while (true);
 
             //     We employ any freedom that may be available to reduce the objective
             //     function before returning a DX whose length is less than RHO.
-
         } while (mcon == m);
 
         return false;
     }
-        
-    private static void PrintIterationResult(int nfvals, double f, double resmax, double[] x, int n)
-    {
+
+    private static void printIterationResult(int nfvals, double f, double resmax, double[] x, int n) {
         System.out.format("%nNFVALS = %1$5d   F = %2$13.6f    MAXCV = %3$13.6e%n", nfvals, f, resmax);
-        System.out.format("X = %s%n", FORMAT(PART(x, 1, n)));
+        System.out.format("X = %s%n", format(part(x, 1, n)));
     }
 
-    private static double[] ROW(double[][] src, int rowidx)
-    {
+    private static double[] row(double[][] src, int rowidx) {
         int cols = src[0].length;
         double[] dest = new double[cols];
-        for (int col = 0; col < cols; ++col) dest[col] = src[rowidx][col];
+        for (int col = 0; col < cols; ++col) {
+            dest[col] = src[rowidx][col];
+        }
         return dest;
     }
 
-    private static double[] COL(double[][] src, int colidx)
-    {
+    private static double[] col(double[][] src, int colidx) {
         int rows = src.length;
         double[] dest = new double[rows];
-        for (int row = 0; row < rows; ++row) dest[row] = src[row][colidx];
+        for (int row = 0; row < rows; ++row) {
+            dest[row] = src[row][colidx];
+        }
         return dest;
     }
 
-    private static double[] PART(double[] src, int from, int to)
-    {
+    private static double[] part(double[] src, int from, int to) {
         double[] dest = new double[to - from + 1];
         int destidx = 0;
-        for (int srcidx = from; srcidx <= to; ++srcidx, ++destidx) dest[destidx] = src[srcidx];
+        for (int srcidx = from; srcidx <= to; ++srcidx, ++destidx) {
+            dest[destidx] = src[srcidx];
+        }
         return dest;
     }
 
-    private static String FORMAT(double[] x)
-    {
+    private static String format(double[] x) {
         String fmt = "";
-        for (int i = 0; i < x.length; ++i) fmt = fmt + String.format("%13.6f", x[i]);
+        for (int i = 0; i < x.length; ++i) {
+            fmt = fmt + String.format("%13.6f", x[i]);
+        }
         return fmt;
     }
 
-    private static double DOT_PRODUCT(double[] lhs, double[] rhs)
-    {
-        double sum = 0.0; for (int i = 0; i < lhs.length; ++i) sum += lhs[i] * rhs[i];
+    private static double dotProduct(double[] lhs, double[] rhs) {
+        double sum = 0.0;
+        for (int i = 0; i < lhs.length; ++i) {
+            sum += lhs[i] * rhs[i];
+        }
         return sum;
     }
 }
