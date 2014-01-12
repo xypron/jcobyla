@@ -9,19 +9,19 @@
     <version>1.0</version>
     <name>jcobyla</name>
     <description>
-		COBYLA2 is an implementation of Powell’s nonlinear derivative–free
-		constrained optimization that uses a linear approximation approach.
-		The algorithm is a sequential trust–region algorithm that employs
-		linear approximations to the objective and constraint functions, where
-		the approximations are formed by linear interpolation at n + 1 points
-		in the space of the variables and tries to maintain a regular–shaped
-		simplex over iterations.
+        COBYLA2 is an implementation of Powell’s nonlinear derivative–free
+        constrained optimization that uses a linear approximation approach.
+        The algorithm is a sequential trust–region algorithm that employs
+        linear approximations to the objective and constraint functions, where
+        the approximations are formed by linear interpolation at n + 1 points
+        in the space of the variables and tries to maintain a regular–shaped
+        simplex over iterations.
 
-		It solves nonsmooth NLP with a moderate number of variables (about 100).
-		Inequality constraints only.
+        It solves nonsmooth NLP with a moderate number of variables (about 100).
+        Inequality constraints only.
 
-		The initial point X is taken as one vertex of the initial simplex with
-		zero being another, so, X should not be entered as the zero vector.
+        The initial point X is taken as one vertex of the initial simplex with
+        zero being another, so, X should not be entered as the zero vector.
     </description>
     <url>http://github.com/xypron/jcobyla</url>
     <repositories>
@@ -30,13 +30,13 @@
         <connection>scm:git:https://github.com/xypron/jcobyla.git</connection>
         <url>https://github.com/xypron/jcobyla.git</url>
     </scm>
-	<licenses>
-	    <license>
-		    <name>The MIT License</name>
-			<url>LICENSE.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+    <licenses>
+        <license>
+            <name>The MIT License</name>
+            <url>LICENSE.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
     <developers>
         <developer>
             <name>Anders Gustafson</name>
@@ -53,14 +53,14 @@
     </properties>
     <build>
         <plugins>
-		    <plugin>
-			    <groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-				<version>1.5</version>
-				<configuration>
-				    <licenseName>mit</licenseName>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>1.5</version>
+                <configuration>
+                    <licenseName>mit</licenseName>
                 </configuration>
-			</plugin>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -151,6 +151,11 @@
     <packaging>jar</packaging>
     <reporting>
         <plugins>
+            <plugin>
+                <groupId>com.github.janssk1</groupId>
+                <artifactId>maven-dependencygraph-plugin</artifactId>
+                <version>1.2</version>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
