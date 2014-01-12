@@ -34,12 +34,12 @@ package de.xypron.jcobyla;
 /**
  * Constrained Optimization BY Linear Approximation in Java.
  *
- * COBYLA2 is an implementation of Powell’s nonlinear derivative–free
+ * COBYLA2 is an implementation of Powell's nonlinear derivative free
  * constrained optimization that uses a linear approximation approach. The
- * algorithm is a sequential trust–region algorithm that employs linear
+ * algorithm is a sequential trusted region algorithm that employs linear
  * approximations to the objective and constraint functions, where the
  * approximations are formed by linear interpolation at n + 1 points in the
- * space of the variables and tries to maintain a regular–shaped simplex over
+ * space of the variables and tries to maintain a regular shaped simplex over
  * iterations.
  *
  * It solves nonsmooth NLP with a moderate number of variables (about 100).
