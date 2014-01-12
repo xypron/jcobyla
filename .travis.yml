@@ -8,7 +8,7 @@ branches:
   only:
     - master
 
-script: "mvn clean package site"
+script: "mvn clean package"
 
 install: /bin/true
 
