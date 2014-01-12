@@ -8,7 +8,7 @@ branches:
   only:
     - master
 
-script: "mvn $TARGET"
+script: "mvn clean package site"
 
 install: /bin/true
 
