@@ -51,6 +51,31 @@ package de.xypron.jcobyla;
  * @author Anders Gustafsson, Cureos AB.
  */
 public class Cobyla {
+       //     provide an initial vector of variables in X.  Further, the value of
+        //     IPRINT should be set to 0, 1, 2 or 3, which controls the amount of
+        //     printing during the calculation. Specifically, there is no output if
+        //     IPRINT=0 and there is output only at the end of the calculation if
+        //     IPRINT=1.  Otherwise each new value of RHO and SIGMA is printed.
+        //     Further, the vector of variables and some function information are
+        //     given either when RHO is reduced or when each new value of F(X) is
+        //     computed in the cases IPRINT=2 or IPRINT=3 respectively.    
+    /**
+     * No output.
+     */
+    public final static int IPRINT_NONE = 0;
+    /**
+     * Output only at the end of the calculation.
+     */
+    public final static int IPRINT_END_OF_CALC = 1;
+    /**
+     * Output new values of RHO and SIGMA, and furthermore X when RHO is reduced.
+     */
+    public final static int IPRINT_RHO_REDUCED = 2;
+    /**
+     * Output new values of RHO and SIGMA, and furthermore X for each new value
+     * of F(X).
+     */
+    public final static int IPRINT_FULL = 3;
 
     /**
      * Minimizes the objective function F with respect to a set of inequality

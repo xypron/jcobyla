@@ -6,7 +6,7 @@
     </prerequisites>
     <groupId>de.xypron.jcobyla</groupId>
     <artifactId>jcobyla</artifactId>
-    <version>1.1</version>
+    <version>1.2-SNAPSHOT</version>
     <name>jcobyla</name>
     <description>
         COBYLA2 is an implementation of Powell's nonlinear derivative free
@@ -42,6 +42,14 @@
             <name>Anders Gustafson</name>
             <id>cureros</id>
             <email>info@cureos.com</email>
+            <roles>
+                <role>Java Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Heinrich Schuchardt</name>
+            <id>xypron</id>
+            <email>xypron.glpk@gmx.de</email>
             <roles>
                 <role>Java Developer</role>
             </roles>
