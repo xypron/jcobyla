@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pmd-cpd>
+<duplication lines="12" tokens="135">
+<file line="817" path="/home/zfsdt/workspace/jcobyla/src/main/java/de/xypron/jcobyla/Cobyla.java"/>
+<file line="953" path="/home/zfsdt/workspace/jcobyla/src/main/java/de/xypron/jcobyla/Cobyla.java"/>
+<codefragment>
+<![CDATA[
+                                double sp = dotProduct(part(col(z, k), 1, n), part(col(a, kk), 1, n));
+                                temp = Math.sqrt(sp * sp + zdota[kp] * zdota[kp]);
+                                double alpha = zdota[kp] / temp;
+                                double beta = sp / temp;
+                                zdota[kp] = alpha * zdota[k];
+                                zdota[k] = temp;
+                                for (int i = 1; i <= n; ++i) {
+                                    temp = alpha * z[i][kp] + beta * z[i][k];
+                                    z[i][kp] = alpha * z[i][k] - beta * z[i][kp];
+                                    z[i][k] = temp;
+                                }
+                                iact[k] = kk;
+]]>
+</codefragment>
+</duplication>
+<duplication lines="14" tokens="129">
+<file line="453" path="/home/zfsdt/workspace/jcobyla/src/main/java/de/xypron/jcobyla/Cobyla.java"/>
+<file line="580" path="/home/zfsdt/workspace/jcobyla/src/main/java/de/xypron/jcobyla/Cobyla.java"/>
+<codefragment>
+<![CDATA[
+                                sim[i][jdrop] = dx[i];
+                                temp += simi[jdrop][i] * dx[i];
+                            }
+                            for (int k = 1; k <= n; ++k) {
+                                simi[jdrop][k] /= temp;
+                            }
+
+                            for (int j = 1; j <= n; ++j) {
+                                if (j != jdrop) {
+                                    temp = dotProduct(part(row(simi, j), 1, n), part(dx, 1, n));
+                                    for (int k = 1; k <= n; ++k) {
+                                        simi[j][k] -= temp * simi[jdrop][k];
+                                    }
+                                }
+]]>
+</codefragment>
+</duplication>
+</pmd-cpd>

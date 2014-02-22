@@ -3,15 +3,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>JCobyla - About</title>
+    <title>JCobyla - Generated Reports</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
       @import url("./css/site.css");
     </style>
     <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
-      <meta name="author" content="Heinrich Schuchardt
-xypron.glpk@gmx.de" />
     <meta name="Date-Revision-yyyymmdd" content="20140222" />
     <meta http-equiv="Content-Language" content="en" />
         
@@ -37,7 +35,7 @@ xypron.glpk@gmx.de" />
         &gt;
                           <a href="index.html" title="JCobyla">JCobyla</a>
         &gt;
-    About
+    Generated Reports
               </div>
             <div class="xright">        
                     
@@ -53,8 +51,8 @@ xypron.glpk@gmx.de" />
                                 <h5>Overview</h5>
                   <ul>
                   <li class="none">
-            <strong>About</strong>
-          </li>
+                          <a href="index.html" title="About">About</a>
+            </li>
           </ul>
                        <h5>Documentation</h5>
                   <ul>
@@ -64,53 +62,47 @@ xypron.glpk@gmx.de" />
           </ul>
                                            <h5>Project Documentation</h5>
                   <ul>
-                                                                                                                                                                                                                                                                                                      <li class="expanded">
+                                                                                                                                                                                                                                                                                            <li class="collapsed">
                           <a href="project-info.html" title="Project Information">Project Information</a>
-                    <ul>
+                  </li>
+                                                                                                                                                                                                                                                            <li class="expanded">
+            <strong>Project Reports</strong>
+                  <ul>
                       <li class="none">
-            <strong>About</strong>
-          </li>
-                      <li class="none">
-                          <a href="team-list.html" title="Project Team">Project Team</a>
+                          <a href="apidocs/index.html" title="JavaDocs">JavaDocs</a>
             </li>
                       <li class="none">
-                          <a href="dependency-info.html" title="Dependency Information">Dependency Information</a>
+                          <a href="testapidocs/index.html" title="Test JavaDocs">Test JavaDocs</a>
             </li>
                       <li class="none">
-                          <a href="plugins.html" title="Project Plugins">Project Plugins</a>
+                          <a href="checkstyle-aggregate.html" title="Checkstyle">Checkstyle</a>
             </li>
                       <li class="none">
-                          <a href="integration.html" title="Continuous Integration">Continuous Integration</a>
+                          <a href="checkstyle.html" title="Checkstyle">Checkstyle</a>
             </li>
                       <li class="none">
-                          <a href="issue-tracking.html" title="Issue Tracking">Issue Tracking</a>
+                          <a href="clirr-report.html" title="Clirr">Clirr</a>
             </li>
                       <li class="none">
-                          <a href="source-repository.html" title="Source Repository">Source Repository</a>
+                          <a href="xref/index.html" title="Source Xref">Source Xref</a>
             </li>
                       <li class="none">
-                          <a href="license.html" title="Project License">Project License</a>
+                          <a href="xref-test/index.html" title="Test Source Xref">Test Source Xref</a>
             </li>
                       <li class="none">
-                          <a href="plugin-management.html" title="Plugin Management">Plugin Management</a>
+                          <a href="pmd.html" title="PMD Report">PMD Report</a>
             </li>
                       <li class="none">
-                          <a href="distribution-management.html" title="Distribution Management">Distribution Management</a>
+                          <a href="cpd.html" title="CPD Report">CPD Report</a>
             </li>
                       <li class="none">
-                          <a href="project-summary.html" title="Project Summary">Project Summary</a>
+                          <a href="jdepend-report.html" title="JDepend">JDepend</a>
             </li>
                       <li class="none">
-                          <a href="mail-lists.html" title="Mailing Lists">Mailing Lists</a>
-            </li>
-                      <li class="none">
-                          <a href="dependencies.html" title="Dependencies">Dependencies</a>
+                          <a href="taglist.html" title="Tag List">Tag List</a>
             </li>
               </ul>
         </li>
-                                                                                                                                                                                                                                                        <li class="collapsed">
-                          <a href="project-reports.html" title="Project Reports">Project Reports</a>
-                  </li>
           </ul>
                              <a href="http://maven.apache.org/" title="Built by Maven" class="poweredBy">
         <img class="poweredBy" alt="Built by Maven" src="./images/logos/maven-feather.png" />
@@ -122,21 +114,47 @@ xypron.glpk@gmx.de" />
     <div id="bodyColumn">
       <div id="contentBox">
         <div class="section">
-<h2>About<a name="About"></a></h2>
-<p>COBYLA2 is an implementation of Powell&#xe2;&#x80;&#x99;s nonlinear derivative&#xe2;&#x80;&#x93;free constrained optimization that uses a linear approximation approach. The algorithm is a sequential trust&#xe2;&#x80;&#x93;region algorithm that employs linear approximations to the objective and constraint functions, where the approximations are formed by linear interpolation at n + 1 points in the space of the variables and tries to maintain a regular&#xe2;&#x80;&#x93;shaped simplex over iterations.</p>
-<p>It solves nonsmooth NLP with a moderate number of variables (about 100). Inequality constraints only.</p>
-<p>The initial point X is taken as one vertex of the initial simplex with zero being another, so, X should not be entered as the zero vector.</p>
+<h2>Generated Reports<a name="Generated_Reports"></a></h2>
+<p>This document provides an overview of the various reports that are automatically generated by <a class="externalLink" href="http://maven.apache.org">Maven</a> . Each report is briefly described below.</p>
 <div class="section">
-<h3>Maven<a name="Maven"></a></h3>
-<p>For using this library in your Maven project enter the following dependency in your pom.xml:</p>
-<div>
-<pre>    &lt;dependencies&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;de.xypron.jcobyla&lt;/groupId&gt;
-            &lt;artifactId&gt;jcobyla&lt;/artifactId&gt;
-            &lt;version&gt;1.2-SNAPSHOT&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;</pre></div></div></div>
+<h3>Overview<a name="Overview"></a></h3>
+<table border="0" class="bodyTable">
+<tr class="a">
+<th>Document</th>
+<th>Description</th></tr>
+<tr class="b">
+<td><a href="apidocs/index.html">JavaDocs</a></td>
+<td>JavaDoc API documentation.</td></tr>
+<tr class="a">
+<td><a href="testapidocs/index.html">Test JavaDocs</a></td>
+<td>Test JavaDoc API documentation.</td></tr>
+<tr class="b">
+<td><a href="checkstyle-aggregate.html">Checkstyle</a></td>
+<td>Report on coding style conventions.</td></tr>
+<tr class="a">
+<td><a href="checkstyle.html">Checkstyle</a></td>
+<td>Report on coding style conventions.</td></tr>
+<tr class="b">
+<td><a href="clirr-report.html">Clirr</a></td>
+<td>Report on binary and source API differences between releases</td></tr>
+<tr class="a">
+<td><a href="xref/index.html">Source Xref</a></td>
+<td>HTML based, cross-reference version of Java source code.</td></tr>
+<tr class="b">
+<td><a href="xref-test/index.html">Test Source Xref</a></td>
+<td>HTML based, cross-reference version of Java test source code.</td></tr>
+<tr class="a">
+<td><a href="pmd.html">PMD Report</a></td>
+<td>Verification of coding rules.</td></tr>
+<tr class="b">
+<td><a href="cpd.html">CPD Report</a></td>
+<td>Duplicate code detection.</td></tr>
+<tr class="a">
+<td><a href="jdepend-report.html">JDepend</a></td>
+<td>JDepend traverses Java class file directories and generates design quality metrics for each Java package. JDepend allows you to automatically measure the quality of a design in terms of its extensibility, reusability, and maintainability to manage package dependencies effectively.</td></tr>
+<tr class="b">
+<td><a href="taglist.html">Tag List</a></td>
+<td>Report on various tags found in the code.</td></tr></table></div></div>
       </div>
     </div>
     <div class="clear">
