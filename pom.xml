@@ -23,7 +23,7 @@
         The initial point X is taken as one vertex of the initial simplex with
         zero being another, so, X should not be entered as the zero vector.
     </description>
-    <url>http://github.com/xypron/jcobyla</url>
+    <url>https://github.com/xypron/jcobyla</url>
     <repositories>
     </repositories>
     <scm>
@@ -58,6 +58,7 @@
     <properties>
         <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
         <netbeans.checkstyle.format>true</netbeans.checkstyle.format>
+        <github.global.server>github</github.global.server>
     </properties>
     <build>
         <plugins>
@@ -148,6 +149,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.3</version>
+                <configuration>
+                    <skipDeploy>true</skipDeploy>
+                </configuration>                
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -155,18 +159,22 @@
                 <version>2.6</version>
             </plugin>
             <plugin>
+                <!-- To deploy site use
+                mvn com.github.github:site-maven-plugin:site -->
                 <groupId>com.github.github</groupId>
                 <artifactId>site-maven-plugin</artifactId>
                 <version>0.9</version>
                 <configuration>
                     <message>Creating site for ${project.version}</message>
+                    <repositoryName>jcobyla</repositoryName>
+                    <repositoryOwner>xypron</repositoryOwner> 
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>site</goal>
                         </goals>
-                        <phase>site</phase>
+                        <phase>site-deploy</phase>
                     </execution>
                 </executions>
             </plugin>
