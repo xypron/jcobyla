@@ -1,4 +1,4 @@
-=jcobyla
+=JCobyla
 
 <b>Constrained Optimization BY Linear Approximation in Java</b>
 
