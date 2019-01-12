@@ -22,9 +22,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  * Remarks:
- * 
+ *
  * The original Fortran 77 version of this code was by Michael Powell
  * (M.J.D.Powell @ damtp.cam.ac.uk). The Fortran 90 version was by Alan Miller
  * (Alan.Miller @ vic.cmis.csiro.au). Latest revision - 30 October 1998
@@ -33,7 +33,7 @@ package de.xypron.jcobyla;
 
 /**
  * Enumeration of exit statuses associated with COBYLA2 optimization.
- * 
+ *
  * @author Anders Gustafsson, Cureos AB.
  */
 public enum CobylaExitStatus {
@@ -41,12 +41,13 @@ public enum CobylaExitStatus {
      * Optimization successfully completed.
      */
     NORMAL,
-    
+
     /**
-     * Maximum number of iterations (function/constraints evaluations) reached during optimization.
+     * Maximum number of iterations (function/constraints evaluations) reached
+     * during optimization.
      */
     MAX_ITERATIONS_REACHED,
-    
+
     /**
      * Size of rounding error is becoming damaging, terminating prematurely.
      */
