@@ -22,9 +22,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- * 
+ *
  * Remarks:
- * 
+ *
  * The original Fortran 77 version of this code was by Michael Powell
  * (M.J.D.Powell @ damtp.cam.ac.uk). The Fortran 90 version was by Alan Miller
  * (Alan.Miller @ vic.cmis.csiro.au). Latest revision - 30 October 1998
