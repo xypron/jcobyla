@@ -872,7 +872,7 @@ public class Cobyla {
                                 if (spabs >= acca || acca >= accb) {
                                     sp = 0.0;
                                 }
-                                if (tot == 0.0) {
+                                if (tot * tot == 0.0) {
                                     tot = sp;
                                 } else {
                                     int kp = k + 1;
